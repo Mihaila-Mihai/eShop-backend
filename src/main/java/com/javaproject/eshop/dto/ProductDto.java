@@ -15,13 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductDto {
 
-    @NotBlank(message = "Product name can not be empty or null")
+    @NotBlank(message = "Product name can not be empty")
+    @NotNull(message = "Product name can not be null")
     private String displayName;
 
-    private int quantity;
-
     @NotNull(message = "You have to specify a price")
-    @Min(0)
+    @Min(value = 1, message = "Price can not be less that 1")
     private double price;
 
     @NotNull(message = "You have to specify quantity")

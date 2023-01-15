@@ -2,9 +2,9 @@ package com.javaproject.eshop.service;
 
 import com.javaproject.eshop.dto.CustomerDto;
 import com.javaproject.eshop.entity.Customer;
+import com.javaproject.eshop.exceptions.UnknownCustomerException;
 import com.javaproject.eshop.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +22,6 @@ public class CustomerService {
     }
 
     public Customer getCustomer(int customerId) {
-        return customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("No user found"));
+        return customerRepository.findById(customerId).orElseThrow(() -> new UnknownCustomerException("No customer corresponds to this data"));
     }
 }

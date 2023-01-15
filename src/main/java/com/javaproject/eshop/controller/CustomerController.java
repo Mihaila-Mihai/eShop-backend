@@ -4,6 +4,7 @@ import com.javaproject.eshop.dto.CustomerDto;
 import com.javaproject.eshop.entity.Customer;
 import com.javaproject.eshop.service.CustomerService;
 import jakarta.persistence.Entity;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("/customer")
-    public ResponseEntity<Customer> saveCustomer(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<Customer> saveCustomer(@RequestBody @Valid CustomerDto customerDto) {
         Customer customer = customerService.saveCustomer(customerDto);
         return ResponseEntity.created(URI.create("/customer/" + customer.getCustomerId())).body(customer);
     }

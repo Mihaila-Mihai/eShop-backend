@@ -3,6 +3,7 @@ package com.javaproject.eshop.service;
 import com.javaproject.eshop.dto.ProductDto;
 import com.javaproject.eshop.entity.Product;
 import com.javaproject.eshop.entity.ProductVariation;
+import com.javaproject.eshop.exceptions.UnknownProductException;
 import com.javaproject.eshop.repository.ProductRepository;
 import com.javaproject.eshop.repository.ProductVariationRepository;
 import lombok.AllArgsConstructor;
@@ -42,7 +43,7 @@ public class ProductService {
     }
 
     public Product getProduct(int productId) {
-        return productRepository.findProductByProductId(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        return productRepository.findProductByProductId(productId).orElseThrow(() -> new UnknownProductException("Product not found"));
     }
 
     public List<Product> getProducts() {
@@ -50,7 +51,7 @@ public class ProductService {
     }
 
     public void updateStock(int productId, int stock) {
-        Product product = productRepository.findProductByProductId(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = productRepository.findProductByProductId(productId).orElseThrow(() -> new UnknownProductException("Product not found"));
         if (product != null) {
             productRepository.save(product.setStock(stock));
         }

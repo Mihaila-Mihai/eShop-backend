@@ -4,6 +4,9 @@ import com.javaproject.eshop.entity.Cart;
 import com.javaproject.eshop.entity.Customer;
 import com.javaproject.eshop.entity.Product;
 import com.javaproject.eshop.entity.Voucher;
+import com.javaproject.eshop.exceptions.EmptyCartException;
+import com.javaproject.eshop.exceptions.InvalidVoucherException;
+import com.javaproject.eshop.exceptions.OutOfStockException;
 import com.javaproject.eshop.repository.CartRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +31,11 @@ public class CartService {
     }
 
     public Cart getCart(int customerId) {
-        return customerService.getCustomer(customerId).getCart();
+        Cart cart = customerService.getCustomer(customerId).getCart();
+        if (cart == null) {
+            throw new EmptyCartException("Your cart is empty");
+        }
+        return cart;
     }
 
     public void deleteCart(int customerId) {
@@ -36,7 +43,7 @@ public class CartService {
         Cart cart = getCart(customerId);
 
         if (cart == null) {
-            throw new RuntimeException("Cart is empty");
+            throw new EmptyCartException("Cart is empty");
         }
 
         cartRepository.delete(cart);
@@ -47,7 +54,7 @@ public class CartService {
         Product product = productService.getProduct(productId);
 
         if (product.getStock() <= 0) {
-            throw new RuntimeException("Product out of stock");
+            throw new OutOfStockException("Product out of stock");
         }
 
         Cart cart = getCart(customerId);
@@ -68,13 +75,13 @@ public class CartService {
         Voucher voucher = voucherService.getVoucher(voucherId);
 
         if (!voucher.isActive()) {
-            throw new RuntimeException("Voucher is not valid");
+            throw new InvalidVoucherException("Voucher is not valid");
         }
 
         Cart cart = getCart(customerId);
 
         if (cart == null) {
-            throw new RuntimeException("Cart is empty");
+            throw new EmptyCartException("Cart is empty");
         }
 
         cart.addVoucher(voucher);

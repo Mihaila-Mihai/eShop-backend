@@ -29,6 +29,7 @@ public class ProductVariationService {
     }
 
     public List<ProductVariation> getVariations(int productId) {
+        Product product = productService.getProduct(productId);
         return productVariationRepository.findProductVariations(productId);
     }
 }

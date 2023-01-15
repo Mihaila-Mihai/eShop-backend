@@ -4,15 +4,14 @@ import com.javaproject.eshop.entity.Cart;
 import com.javaproject.eshop.entity.Customer;
 import com.javaproject.eshop.entity.Order;
 import com.javaproject.eshop.entity.OrderItem;
+import com.javaproject.eshop.exceptions.EmptyCartException;
 import com.javaproject.eshop.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +26,7 @@ public class OrderService {
         Cart cart = cartService.getCart(customerId);
 
         if (cart == null) {
-            throw new RuntimeException("Cart is empty");
+            throw new EmptyCartException("Cart is empty");
         }
 
         Order order = Order.builder()

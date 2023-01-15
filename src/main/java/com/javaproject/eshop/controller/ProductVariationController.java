@@ -3,6 +3,7 @@ package com.javaproject.eshop.controller;
 import com.javaproject.eshop.dto.ProductVariationDto;
 import com.javaproject.eshop.entity.ProductVariation;
 import com.javaproject.eshop.service.ProductVariationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ProductVariationController {
     }
 
     @PostMapping("/{productId}/variation")
-    private ResponseEntity<ProductVariation> addVariation(@PathVariable int productId, @RequestBody ProductVariationDto productVariationDto) {
+    private ResponseEntity<ProductVariation> addVariation(@PathVariable int productId, @RequestBody @Valid ProductVariationDto productVariationDto) {
         ProductVariation productVariation = productVariationService.saveProductVariation(productVariationDto, productId);
         return ResponseEntity.created(URI.create("/" + productId + "/variation/" + productVariation.getProductVariationId())).body(productVariation);
     }
