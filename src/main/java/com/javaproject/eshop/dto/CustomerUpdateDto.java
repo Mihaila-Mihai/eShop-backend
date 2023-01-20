@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDto {
+public class CustomerUpdateDto {
+    @NotNull(message = "Id can not be null")
+    private int customerId;
 
     @Email(message = "Email not valid")
     @NotNull(message = "Email can not be null")

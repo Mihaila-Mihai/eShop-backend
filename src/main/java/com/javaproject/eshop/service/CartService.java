@@ -10,9 +10,8 @@ import com.javaproject.eshop.exceptions.OutOfStockException;
 import com.javaproject.eshop.repository.CartRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -40,7 +39,7 @@ public class CartService {
 
     public void deleteCart(int customerId) {
         Customer customer = customerService.getCustomer(customerId);
-        Cart cart = getCart(customerId);
+        Cart cart = customer.getCart();
 
         if (cart == null) {
             throw new EmptyCartException("Cart is empty");
@@ -49,6 +48,7 @@ public class CartService {
         cartRepository.delete(cart);
     }
 
+    @Transactional
     public void addToCart(int productId, int customerId) {
         Customer customer = customerService.getCustomer(customerId);
         Product product = productService.getProduct(productId);
@@ -57,7 +57,7 @@ public class CartService {
             throw new OutOfStockException("Product out of stock");
         }
 
-        Cart cart = getCart(customerId);
+        Cart cart = customer.getCart();
 
         if (cart == null) {
             cart = new Cart();
@@ -79,10 +79,6 @@ public class CartService {
         }
 
         Cart cart = getCart(customerId);
-
-        if (cart == null) {
-            throw new EmptyCartException("Cart is empty");
-        }
 
         cart.addVoucher(voucher);
 

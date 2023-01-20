@@ -16,6 +16,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customerId;
 
+    private String email;
     private String firstName;
     private String lastName;
 
@@ -28,8 +29,9 @@ public class Customer {
     private List<Order> orders;
 
     @Builder
-    public Customer(String firstName, String lastName) {
+    public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 }

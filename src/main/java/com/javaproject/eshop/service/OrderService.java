@@ -8,6 +8,7 @@ import com.javaproject.eshop.exceptions.EmptyCartException;
 import com.javaproject.eshop.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class OrderService {
     private final CustomerService customerService;
     private final OrderItemService orderItemService;
 
+    @Transactional
     public void checkout(int customerId) {
         Customer customer = customerService.getCustomer(customerId);
         Cart cart = cartService.getCart(customerId);

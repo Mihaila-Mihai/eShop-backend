@@ -5,9 +5,8 @@ import com.javaproject.eshop.entity.Product;
 import com.javaproject.eshop.entity.ProductVariation;
 import com.javaproject.eshop.exceptions.UnknownProductException;
 import com.javaproject.eshop.repository.ProductRepository;
-import com.javaproject.eshop.repository.ProductVariationRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +19,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    @Transactional
     public Product saveProduct(ProductDto productDto) {
         Product product = Product.builder()
                 .displayName(productDto.getDisplayName())

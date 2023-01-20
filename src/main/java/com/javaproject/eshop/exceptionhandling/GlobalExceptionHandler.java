@@ -20,7 +20,9 @@ public class GlobalExceptionHandler {
             EmptyCartException.class,
             InvalidVoucherException.class,
             UnknownCustomerException.class,
-            UnknownProductException.class
+            UnknownProductException.class,
+            EmailAlreadyExistsException.class,
+            NotMatchingIdsException.class
     })
     public ResponseEntity<Map<String, String>> handleException(RuntimeException e) {
         Map<String, String> responseParameters = new HashMap<>();

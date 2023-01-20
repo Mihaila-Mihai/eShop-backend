@@ -1,7 +1,9 @@
 package com.javaproject.eshop.controller;
 
 import com.javaproject.eshop.dto.CustomerDto;
+import com.javaproject.eshop.dto.CustomerUpdateDto;
 import com.javaproject.eshop.entity.Customer;
+import com.javaproject.eshop.exceptions.NotMatchingIdsException;
 import com.javaproject.eshop.service.CustomerService;
 import jakarta.persistence.Entity;
 import jakarta.validation.Valid;
@@ -28,5 +30,13 @@ public class CustomerController {
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<Customer> getCustomer(@PathVariable int customerId) {
         return ResponseEntity.ok(customerService.getCustomer(customerId));
+    }
+
+    @PutMapping("/customer/{customerId}")
+    public ResponseEntity<Customer> updateCustomer(@RequestBody @Valid CustomerUpdateDto customerUpdateDto, @PathVariable int customerId) {
+        if (customerId != customerUpdateDto.getCustomerId()) {
+            throw new NotMatchingIdsException("Ids must match");
+        }
+        return ResponseEntity.ok(customerService.updateCustomer(customerUpdateDto, customerId));
     }
 }
