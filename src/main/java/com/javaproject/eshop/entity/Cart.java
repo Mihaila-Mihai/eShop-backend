@@ -26,6 +26,7 @@ public class Cart {
     @JoinColumn(name = "voucher_id")
     private Voucher voucher;
 
+
     @ManyToMany
     @JoinTable(name = "cart_to_product", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products = new ArrayList<>();
@@ -35,6 +36,13 @@ public class Cart {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @Builder
+    public Cart(double totalPrice, Voucher voucher, List<Product> products, Customer customer) {
+        this.totalPrice = totalPrice;
+        this.voucher = voucher;
+        this.products = products;
+        this.customer = customer;
+    }
 
     public void setProducts(List<Product> products) {
         this.products = new ArrayList<>(products);

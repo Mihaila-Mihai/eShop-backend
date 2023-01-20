@@ -148,7 +148,7 @@ public class CartServiceTests {
     }
 
     @Test
-    @DisplayName("Add to throw test")
+    @DisplayName("Add to cart throw test")
     void addToCartThrow() {
         int productId = 1;
         int customerId = 1;
@@ -162,6 +162,21 @@ public class CartServiceTests {
                 () -> cartService.addToCart(productId, customerId));
 
         assertEquals(expected, result.getMessage());
+    }
+
+    @Test
+    @DisplayName("Add to empty cart test")
+    void addToEmptyCart() {
+        int productId = 1;
+        int customerId = 1;
+        customer.setCart(null);
+
+        doReturn(this.customer).when(customerService).getCustomer(customerId);
+        doReturn(this.product).when(productService).getProduct(productId);
+
+        assertDoesNotThrow(() -> cartService.addToCart(productId, customerId));
+        Cart result = cartService.getCart(customerId);
+        assertEquals(20, result.getTotalPrice());
     }
 
     @Test

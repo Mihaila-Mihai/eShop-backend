@@ -1,7 +1,9 @@
 package com.javaproject.eshop.service;
 
 import com.javaproject.eshop.dto.CustomerDto;
+import com.javaproject.eshop.dto.CustomerUpdateDto;
 import com.javaproject.eshop.entity.Customer;
+import com.javaproject.eshop.exceptions.EmailAlreadyExistsException;
 import com.javaproject.eshop.exceptions.UnknownCustomerException;
 import com.javaproject.eshop.repository.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +32,7 @@ public class CustomerServiceTests {
         CustomerDto customerDto = new CustomerDto("m.m@m.ro", "Mihai", "Mihaila");
 
         Customer customer = Customer.builder()
+                .email("m.m@m.ro")
                 .firstName("Mihai")
                 .lastName("Mihaila")
                 .build();
@@ -41,6 +44,26 @@ public class CustomerServiceTests {
         assertEquals("Mihai", result.getFirstName());
         assertEquals("Mihaila", result.getLastName());
         assertEquals("m.m@m.ro", result.getEmail());
+    }
+
+    @Test
+    @DisplayName("Save customer throw test")
+    void saveCustomerThrows() {
+        String expected = "This emails already exists";
+        CustomerDto customerDto = new CustomerDto("m.m@m.ro", "Mihai", "Mihaila");
+
+        Customer customer = Customer.builder()
+                .email("m.m@m.ro")
+                .firstName("Mihai")
+                .lastName("Mihaila")
+                .build();
+
+        when(customerRepository.findCustomerByEmail(customerDto.getEmail())).thenReturn(Optional.ofNullable(customer));
+
+        EmailAlreadyExistsException result = assertThrows(EmailAlreadyExistsException.class,
+                () -> customerService.saveCustomer(customerDto));
+
+        assertEquals(expected, result.getMessage());
     }
 
     @Test
@@ -67,6 +90,51 @@ public class CustomerServiceTests {
 
         UnknownCustomerException result = assertThrows(UnknownCustomerException.class,
                 () -> customerService.getCustomer(1));
+
+        assertEquals(expected, result.getMessage());
+    }
+
+    @Test
+    @DisplayName("Update customer test")
+    void updateCustomerSuccess() {
+        int customerId = 1;
+        CustomerUpdateDto customerUpdateDto = new CustomerUpdateDto(1, "m.m@m.ro", "Mihai", "Mihaila");
+
+        Customer toUpdateCustomer = Customer.builder()
+                .lastName(customerUpdateDto.getLastName())
+                .firstName(customerUpdateDto.getFirstName())
+                .email(customerUpdateDto.getEmail())
+                .build();
+        toUpdateCustomer.setCustomerId(customerId);
+
+        when(customerRepository.save(toUpdateCustomer)).thenReturn(toUpdateCustomer);
+
+        Customer result = customerService.updateCustomer(customerUpdateDto, customerId);
+
+        assertEquals(1, result.getCustomerId());
+        assertEquals("m.m@m.ro", result.getEmail());
+        assertEquals("Mihai", result.getFirstName());
+        assertEquals("Mihaila", result.getLastName());
+    }
+
+    @Test
+    @DisplayName("Update customer throw test")
+    void updateCustomerThrow() {
+        String expected = "This email already exists";
+        int customerId = 1;
+        CustomerUpdateDto customerUpdateDto = new CustomerUpdateDto(1, "m.m@m.ro", "Mihai", "Mihaila");
+
+        Customer toUpdateCustomer = Customer.builder()
+                .lastName(customerUpdateDto.getLastName())
+                .firstName(customerUpdateDto.getFirstName())
+                .email(customerUpdateDto.getEmail())
+                .build();
+        toUpdateCustomer.setCustomerId(customerId);
+
+        when(customerRepository.findCustomerByEmailAndCustomerIdNot(customerUpdateDto.getEmail(), customerId)).thenReturn(Optional.of(toUpdateCustomer));
+
+        EmailAlreadyExistsException result = assertThrows(EmailAlreadyExistsException.class,
+                () -> customerService.updateCustomer(customerUpdateDto, customerId));
 
         assertEquals(expected, result.getMessage());
     }

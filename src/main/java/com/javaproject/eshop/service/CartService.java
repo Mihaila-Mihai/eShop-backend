@@ -64,6 +64,7 @@ public class CartService {
         }
 
         cart.addToCart(product);
+        customer.setCart(cart);
 
         productService.updateStock(productId, product.getStock() - 1);
 

@@ -28,4 +28,10 @@ public class ProductDto {
     private int stock;
 
     private List<ProductVariationDto> variations;
+
+    public ProductDto(String displayName, double price, int stock) {
+        this.displayName = displayName;
+        this.price = price;
+        this.stock = stock;
+    }
 }

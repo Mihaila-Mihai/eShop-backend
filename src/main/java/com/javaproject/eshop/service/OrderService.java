@@ -27,10 +27,6 @@ public class OrderService {
         Customer customer = customerService.getCustomer(customerId);
         Cart cart = cartService.getCart(customerId);
 
-        if (cart == null) {
-            throw new EmptyCartException("Cart is empty");
-        }
-
         Order order = Order.builder()
                 .createdOn(Date.valueOf(LocalDate.now()))
                 .customer(customer)

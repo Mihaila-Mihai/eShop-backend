@@ -51,9 +51,8 @@ public class ProductService {
     }
 
     public void updateStock(int productId, int stock) {
-        Product product = productRepository.findProductByProductId(productId).orElseThrow(() -> new UnknownProductException("Product not found"));
-        if (product != null) {
-            productRepository.save(product.setStock(stock));
-        }
+        Product product = productRepository.findProductByProductId(productId)
+                .orElseThrow(() -> new UnknownProductException("Product not found"));
+        productRepository.save(product.setStock(stock));
     }
 }
