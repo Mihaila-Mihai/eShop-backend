@@ -66,9 +66,10 @@ public class CartService {
         cart.addToCart(product);
         customer.setCart(cart);
 
+        saveCart(cart, customerId);
         productService.updateStock(productId, product.getStock() - 1);
 
-        saveCart(cart, customerId);
+
     }
 
     public void addVoucher(int voucherId, int customerId) {
