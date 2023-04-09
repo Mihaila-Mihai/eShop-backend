@@ -7,14 +7,19 @@ import com.javaproject.eshop.exceptions.EmailAlreadyExistsException;
 import com.javaproject.eshop.exceptions.UnknownCustomerException;
 import com.javaproject.eshop.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class CustomerService {
+public class CustomerService implements UserDetailsService {
     private final CustomerRepository customerRepository;
+    private final PasswordEncoder pass;
 
     public Customer saveCustomer(CustomerDto customerDto) {
         Optional<Customer> customer = customerRepository.findCustomerByEmail(customerDto.getEmail());
@@ -28,6 +33,9 @@ public class CustomerService {
                 .firstName(customerDto.getFirstName())
                 .email(customerDto.getEmail())
                 .build();
+
+        toSaveCustomer.setPassword(pass.encode("parola"));
+        toSaveCustomer.setEnabled(true);
 
         return customerRepository.save(toSaveCustomer);
     }
@@ -53,4 +61,14 @@ public class CustomerService {
 
         return customerRepository.save(toUpdateCustomer);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Customer> user = this.customerRepository.findCustomerByEmail(username);
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException(username);
+        }
+        return user.get();
+    }
 }
+

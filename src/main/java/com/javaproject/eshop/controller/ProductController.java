@@ -3,7 +3,6 @@ package com.javaproject.eshop.controller;
 import com.javaproject.eshop.dto.ProductDto;
 import com.javaproject.eshop.entity.Product;
 import com.javaproject.eshop.service.ProductService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
