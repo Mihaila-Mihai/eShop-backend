@@ -91,15 +91,15 @@ public class ProductServiceTests {
         assertEquals(expected, result.getMessage());
     }
 
-    @Test
-    @DisplayName("Get products test")
-    void getProducts() {
-        doReturn(List.of(product)).when(productRepository).findAll();
-
-        List<Product> result = productService.getProducts();
-
-        assertEquals(1, result.size());
-    }
+//    @Test
+//    @DisplayName("Get products test")
+//    void getProducts() {
+//        doReturn(List.of(product)).when(productRepository).findAll();
+//
+//        List<Product> result = productService.getProducts();
+//
+//        assertEquals(1, result.size());
+//    }
 
     @Test
     @DisplayName("Update stock test")

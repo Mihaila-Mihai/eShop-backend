@@ -7,6 +7,7 @@ import com.javaproject.eshop.exceptions.EmailAlreadyExistsException;
 import com.javaproject.eshop.exceptions.UnknownCustomerException;
 import com.javaproject.eshop.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -68,7 +69,7 @@ public class CustomerService implements UserDetailsService {
         if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
-        return user.get();
+        return new User(user.get().getUsername(), user.get().getPassword(), user.get().getAuthorities());
     }
 }
 
