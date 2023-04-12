@@ -1,6 +1,7 @@
 package com.javaproject.eshop.controller;
 
 import com.javaproject.eshop.entity.Cart;
+import com.javaproject.eshop.helpers.AddToCartPayload;
 import com.javaproject.eshop.helpers.CartAction;
 import com.javaproject.eshop.service.CartService;
 import lombok.AllArgsConstructor;
@@ -18,10 +19,10 @@ public class CartController {
         return ResponseEntity.ok(cartService.getCart(customerId));
     }
 
-    @PostMapping("/{customerId}/cart/{productId}")
-    public ResponseEntity<String> addToCart(@PathVariable int customerId, @PathVariable int productId) {
-        cartService.addToCart(productId, customerId);
-        return ResponseEntity.ok("Product successfully added");
+    @PostMapping("/cart")
+    public ResponseEntity<?> addToCart(@RequestBody AddToCartPayload payload) { // todo - rename in dto
+        cartService.addToCart(payload.getProductId(), payload.getCustomerId());
+        return ResponseEntity.ok("");
     }
 
     @DeleteMapping("/{customerId}/cart")

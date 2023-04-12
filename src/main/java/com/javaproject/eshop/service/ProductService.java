@@ -1,8 +1,9 @@
 package com.javaproject.eshop.service;
 
+import com.javaproject.eshop.dto.ProductDetailsDto;
 import com.javaproject.eshop.dto.ProductDto;
 import com.javaproject.eshop.entity.Product;
-import com.javaproject.eshop.entity.ProductVariation;
+import com.javaproject.eshop.entity.ProductDetails;
 import com.javaproject.eshop.exceptions.UnknownProductException;
 import com.javaproject.eshop.repository.ProductRepository;
 import org.springframework.data.domain.Page;
@@ -31,15 +32,16 @@ public class ProductService {
                 .stock(productDto.getStock())
                 .build();
 
-        List<ProductVariation> productVariations = productDto.getVariations().stream()
-                .map(productVariation -> ProductVariation.builder()
-                        .product(product)
-                        .color(productVariation.getColor())
-                        .storageCapacity(productVariation.getStorageCapacity())
-                        .build())
-                .toList();
+        ProductDetailsDto productDetailsDto = productDto.getDetails();
 
-        product.setVariations(productVariations);
+        product.setDetails(new ProductDetails(
+                product,
+                productDetailsDto.getColor(),
+                productDetailsDto.getStorageCapacity(),
+                productDetailsDto.getBrand(),
+                productDetailsDto.getOtherColors(),
+                productDetailsDto.getRating()
+                ));
 
         Product savedProduct = productRepository.save(product);
 
@@ -53,6 +55,7 @@ public class ProductService {
     public List<Product> getProducts() {
         return productRepository.findAll();
     }
+
     public Page<Product> getPaginatedProducts(int page, int size, List<String> sortList, String sortOrder) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
         return productRepository.findPaginatedProducts(pageable);

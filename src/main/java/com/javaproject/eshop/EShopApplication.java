@@ -21,7 +21,7 @@ public class EShopApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/eShop/*").allowedOrigins("http://localhost:4200");
+                registry.addMapping("/eShop/**").allowedOrigins("http://localhost:4200");
             }
         };
     }

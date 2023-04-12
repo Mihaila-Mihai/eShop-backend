@@ -1,11 +1,10 @@
 package com.javaproject.eshop.service;
 
-import com.javaproject.eshop.dto.ProductDto;
-import com.javaproject.eshop.dto.ProductVariationDto;
+import com.javaproject.eshop.dto.ProductDetailsDto;
 import com.javaproject.eshop.entity.Product;
-import com.javaproject.eshop.entity.ProductVariation;
+import com.javaproject.eshop.entity.ProductDetails;
 import com.javaproject.eshop.repository.ProductRepository;
-import com.javaproject.eshop.repository.ProductVariationRepository;
+import com.javaproject.eshop.repository.ProductDetailsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,16 +19,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductVariationServiceTests {
+public class ProductDetailsServiceTests {
 
     @InjectMocks
-    private ProductVariationService productVariationService;
+    private ProductDetailsService productDetailsService;
 
     @Mock
     private ProductService productService;
 
     @Mock
-    private ProductVariationRepository productVariationRepository;
+    private ProductDetailsRepository productDetailsRepository;
 
     @Mock
     private ProductRepository productRepository;
@@ -51,18 +50,18 @@ public class ProductVariationServiceTests {
     @Test
     @DisplayName("Save product variation test")
     void saveProductVariationSuccess() {
-        ProductVariationDto productVariationDto = new ProductVariationDto("blue", "128GB");
+        ProductDetailsDto productDetailsDto = new ProductDetailsDto("blue", "128GB");
 
-        ProductVariation productVariation = ProductVariation.builder()
+        ProductDetails productDetails = ProductDetails.builder()
                 .product(product)
-                .color(productVariationDto.getColor())
-                .storageCapacity(productVariationDto.getStorageCapacity())
+                .color(productDetailsDto.getColor())
+                .storageCapacity(productDetailsDto.getStorageCapacity())
                 .build();
 
         doReturn(product).when(productService).getProduct(product.getProductId());
-        doReturn(productVariation).when(productVariationRepository).save(productVariation);
+        doReturn(productDetails).when(productDetailsRepository).save(productDetails);
 
-        ProductVariation result = productVariationService.saveProductVariation(productVariationDto, product.getProductId());
+        ProductDetails result = productDetailsService.saveProductVariation(productDetailsDto, product.getProductId());
 
         assertEquals("blue", result.getColor());
         assertEquals("128GB", result.getStorageCapacity());
@@ -72,18 +71,18 @@ public class ProductVariationServiceTests {
     @DisplayName("Get product variations test")
     void getProducts() {
         int productId = 1;
-        ProductVariationDto productVariationDto = new ProductVariationDto("blue", "128GB");
+        ProductDetailsDto productDetailsDto = new ProductDetailsDto("blue", "128GB");
 
-        ProductVariation productVariation = ProductVariation.builder()
+        ProductDetails productDetails = ProductDetails.builder()
                 .product(product)
-                .color(productVariationDto.getColor())
-                .storageCapacity(productVariationDto.getStorageCapacity())
+                .color(productDetailsDto.getColor())
+                .storageCapacity(productDetailsDto.getStorageCapacity())
                 .build();
 
         doReturn(product).when(productService).getProduct(productId);
-        doReturn(List.of(productVariation)).when(productVariationRepository).findProductVariations(productId);
+        doReturn(List.of(productDetails)).when(productDetailsRepository).findProductVariations(productId);
 
-        List<ProductVariation> result = productVariationService.getVariations(productId);
+        List<ProductDetails> result = productDetailsService.getVariations(productId);
 
         assertEquals(1, result.size());
     }

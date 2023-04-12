@@ -1,7 +1,7 @@
 package com.javaproject.eshop.service;
 
 import com.javaproject.eshop.dto.ProductDto;
-import com.javaproject.eshop.dto.ProductVariationDto;
+import com.javaproject.eshop.dto.ProductDetailsDto;
 import com.javaproject.eshop.entity.*;
 import com.javaproject.eshop.repository.OrderRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -40,8 +40,8 @@ public class OrderServiceTests {
     @Test
     @DisplayName("Checkout test")
     void checkout() {
-        ProductVariationDto productVariationDto = new ProductVariationDto("blue", "128GB");
-        ProductDto productDto = new ProductDto("Samsung", 20, 20, List.of(productVariationDto));
+        ProductDetailsDto productDetailsDto = new ProductDetailsDto("blue", "128GB");
+        ProductDto productDto = new ProductDto("Samsung", 20, 20, List.of(productDetailsDto));
         int customerId = 1;
         Customer customer = Customer.builder()
                 .email("m.m@m.ro")
@@ -93,8 +93,8 @@ public class OrderServiceTests {
     @Test
     @DisplayName("Get orders test")
     void getOrders() {
-        ProductVariationDto productVariationDto = new ProductVariationDto("blue", "128GB");
-        ProductDto productDto = new ProductDto("Samsung", 20, 20, List.of(productVariationDto));
+        ProductDetailsDto productDetailsDto = new ProductDetailsDto("blue", "128GB");
+        ProductDto productDto = new ProductDto("Samsung", 20, 20, List.of(productDetailsDto));
         int customerId = 1;
         Customer customer = Customer.builder()
                 .email("m.m@m.ro")

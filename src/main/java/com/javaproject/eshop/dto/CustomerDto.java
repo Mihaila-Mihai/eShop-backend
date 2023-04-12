@@ -24,4 +24,8 @@ public class CustomerDto {
     @NotNull(message = "Last name can not be null")
     @NotBlank(message = "Last name can not be empty")
     private String lastName;
+
+    @NotNull
+    @NotBlank
+    private String password;
 }

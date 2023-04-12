@@ -6,6 +6,7 @@ import com.javaproject.eshop.helpers.ProductModel;
 import com.javaproject.eshop.helpers.ProductModelAssembler;
 import com.javaproject.eshop.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -42,8 +43,8 @@ public class ProductController {
 
     @GetMapping("/products")
     private ResponseEntity<PagedModel<ProductModel>> getProducts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "1") int size,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "1") @Min(1) int size,
             @RequestParam(defaultValue = "") List<String> sortList,
             @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder) {
         Page<Product> products = productService.getPaginatedProducts(page, size, sortList, sortOrder.toString());

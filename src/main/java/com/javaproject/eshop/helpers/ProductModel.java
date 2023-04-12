@@ -1,7 +1,7 @@
 package com.javaproject.eshop.helpers;
 
 import com.javaproject.eshop.entity.Cart;
-import com.javaproject.eshop.entity.ProductVariation;
+import com.javaproject.eshop.entity.ProductDetails;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class ProductModel extends RepresentationModel<ProductModel> {
     private String displayName;
     private double price;
     private int stock;
-    private List<ProductVariation> variations = new ArrayList<>();
+    private ProductDetails details;
     private List<Cart> carts = new ArrayList<>();
 
     public int getProductId() {
@@ -47,12 +47,12 @@ public class ProductModel extends RepresentationModel<ProductModel> {
         this.stock = stock;
     }
 
-    public List<ProductVariation> getVariations() {
-        return variations;
+    public ProductDetails getDetails() {
+        return details;
     }
 
-    public void setVariations(List<ProductVariation> variations) {
-        this.variations = variations;
+    public void setDetails(ProductDetails details) {
+        this.details = details;
     }
 
     public List<Cart> getCarts() {

@@ -7,13 +7,13 @@ import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class ProductVariation {
+public class ProductDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productVariationId;
 
     @JsonIgnore
-    @ManyToOne
+    @OneToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JoinColumn(name = "productId")
@@ -21,12 +21,19 @@ public class ProductVariation {
 
     private String color;
     private String storageCapacity;
+    private String brand;
+    private String otherColors;
+    private double rating;
+
 
     @Builder
-    public ProductVariation(Product product, String color, String storageCapacity) {
+    public ProductDetails(Product product, String color, String storageCapacity, String brand, String otherColors, double rating) {
         this.product = product;
         this.color = color;
         this.storageCapacity = storageCapacity;
+        this.brand = brand;
+        this.otherColors = otherColors;
+        this.rating = rating;
     }
 }
 

@@ -18,10 +18,10 @@ public class Product {
     private double price;
     private int stock;
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL})
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<ProductVariation> variations = new ArrayList<>();
+    private ProductDetails details;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "products")
@@ -32,10 +32,6 @@ public class Product {
         this.displayName = displayName;
         this.price = price;
         this.stock = stock;
-    }
-
-    public void setVariations(List<ProductVariation> variations) {
-        this.variations = new ArrayList<>(variations);
     }
 
     public Product setStock(int stock) {

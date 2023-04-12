@@ -35,7 +35,7 @@ public class CustomerService implements UserDetailsService {
                 .email(customerDto.getEmail())
                 .build();
 
-        toSaveCustomer.setPassword(pass.encode("parola"));
+        toSaveCustomer.setPassword(pass.encode(customerDto.getPassword()));
         toSaveCustomer.setEnabled(true);
 
         return customerRepository.save(toSaveCustomer);

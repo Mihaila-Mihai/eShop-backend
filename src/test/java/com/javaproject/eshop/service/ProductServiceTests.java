@@ -1,9 +1,9 @@
 package com.javaproject.eshop.service;
 
 import com.javaproject.eshop.dto.ProductDto;
-import com.javaproject.eshop.dto.ProductVariationDto;
+import com.javaproject.eshop.dto.ProductDetailsDto;
 import com.javaproject.eshop.entity.Product;
-import com.javaproject.eshop.entity.ProductVariation;
+import com.javaproject.eshop.entity.ProductDetails;
 import com.javaproject.eshop.exceptions.UnknownProductException;
 import com.javaproject.eshop.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,12 +30,12 @@ public class ProductServiceTests {
 
     private ProductDto productDto;
     private Product product;
-    private ProductVariationDto productVariationDto;
+    private ProductDetailsDto productDetailsDto;
 
     @BeforeEach
     void setup() {
-        productVariationDto = new ProductVariationDto("blue", "128GB");
-        productDto = new ProductDto("Samsung", 20, 20, List.of(productVariationDto));
+        productDetailsDto = new ProductDetailsDto("blue", "128GB");
+        productDto = new ProductDto("Samsung", 20, 20, List.of(productDetailsDto));
         product = Product.builder()
                 .displayName(productDto.getDisplayName())
                 .price(productDto.getPrice())
@@ -47,13 +47,13 @@ public class ProductServiceTests {
     @DisplayName("Save product test")
     void saveProduct() {
 
-        ProductVariation productVariation = ProductVariation.builder()
-                .color(productVariationDto.getColor())
-                .storageCapacity(productVariationDto.getStorageCapacity())
+        ProductDetails productDetails = ProductDetails.builder()
+                .color(productDetailsDto.getColor())
+                .storageCapacity(productDetailsDto.getStorageCapacity())
                 .build();
 
-        productVariation.setProduct(product);
-        product.setVariations(List.of(productVariation));
+        productDetails.setProduct(product);
+        product.setDetails(List.of(productDetails));
 
         doReturn(product).when(productRepository).save(product);
 

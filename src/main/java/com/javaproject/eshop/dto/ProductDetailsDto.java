@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductVariationDto {
+public class ProductDetailsDto {
 
     @NotBlank(message = "Color can not be empty")
     @NotNull(message = "Color can not be null")
@@ -18,4 +18,8 @@ public class ProductVariationDto {
     @NotBlank(message = "Storage capacity can not be empty")
     @NotNull(message = "Storage capacity can not be null")
     private String storageCapacity;
+
+    private String brand;
+    private String otherColors;
+    private double rating;
 }
