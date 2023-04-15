@@ -15,14 +15,14 @@ public class VoucherService {
     public Voucher saveVoucher(VoucherDto voucherDto) {
         Voucher voucher = Voucher.builder()
                 .value(voucherDto.getValue())
-                .name(voucherDto.getName())
+                .voucherCode(voucherDto.getVoucherCode())
                 .active(voucherDto.getIsActive())
                 .build();
 
         return voucherRepository.save(voucher);
     }
 
-    public Voucher getVoucher(int voucherId) {
-        return voucherRepository.findById(voucherId).orElseThrow(() -> new InvalidVoucherException("No voucher found"));
+    public Voucher getVoucher(String voucherCode) {
+        return voucherRepository.findVoucherByVoucherCode(voucherCode).orElseThrow(() -> new InvalidVoucherException("No voucher found"));
     }
 }

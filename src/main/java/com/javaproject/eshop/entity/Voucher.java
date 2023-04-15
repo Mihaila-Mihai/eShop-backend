@@ -13,11 +13,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Voucher {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int voucherId;
-
-    private String name;
+    @Id
+    private String voucherCode;
     private double value;
     private boolean active;
 
@@ -26,8 +25,8 @@ public class Voucher {
     private List<Cart> cartList = new ArrayList<>();
 
     @Builder
-    public Voucher(String name, double value, boolean active) {
-        this.name = name;
+    public Voucher(String voucherCode, double value, boolean active) {
+        this.voucherCode = voucherCode;
         this.value = value;
         this.active = active;
     }

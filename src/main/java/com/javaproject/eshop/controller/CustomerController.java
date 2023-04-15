@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +34,14 @@ public class CustomerController {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
+
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+
+        context.setAuthentication(authenticate);
+        SecurityContextHolder.setContext(context);
 
         User user = (User) authenticate.getPrincipal();
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, user.toString()).body(user);
+        return ResponseEntity.ok().body(user);
     }
 
     @PostMapping("/register")

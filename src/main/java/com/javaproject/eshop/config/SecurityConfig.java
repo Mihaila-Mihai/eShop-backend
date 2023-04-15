@@ -10,10 +10,13 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -38,9 +41,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain web(HttpSecurity http) throws Exception {
         http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationManager(authenticationManager(http))
+                .formLogin()
+                .loginProcessingUrl("eShop/login")
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/eShop/login").permitAll()
+                        .requestMatchers("/eShop/register").permitAll()
                         .anyRequest().permitAll()
-                ).authenticationManager(authenticationManager(http)).csrf().disable();
+                )
+                .csrf().disable();
 
         return http.build();
     }

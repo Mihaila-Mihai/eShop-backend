@@ -1,5 +1,6 @@
 package com.javaproject.eshop.service;
 
+import com.javaproject.eshop.dto.AddVoucherDto;
 import com.javaproject.eshop.entity.Cart;
 import com.javaproject.eshop.entity.Customer;
 import com.javaproject.eshop.entity.Product;
@@ -72,19 +73,19 @@ public class CartService {
 
     }
 
-    public void addVoucher(int voucherId, int customerId) {
-        Customer customer = customerService.getCustomer(customerId);
-        Voucher voucher = voucherService.getVoucher(voucherId);
+    public void applyVoucher(AddVoucherDto addVoucherDto) {
+        Customer customer = customerService.getCustomer(addVoucherDto.getCustomerId());
+        Voucher voucher = voucherService.getVoucher(addVoucherDto.getVoucherCode());
 
         if (!voucher.isActive()) {
             throw new InvalidVoucherException("Voucher is not valid");
         }
 
-        Cart cart = getCart(customerId);
+        Cart cart = getCart(addVoucherDto.getCustomerId());
 
         cart.addVoucher(voucher);
 
-        saveCart(cart, customerId);
+        saveCart(cart, customer.getCustomerId());
     }
 
 

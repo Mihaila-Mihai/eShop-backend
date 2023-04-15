@@ -14,7 +14,7 @@ public class VoucherDto {
 
     @NotBlank(message = "Name can not be empty")
     @NotNull(message = "Name can not be null")
-    private String name;
+    private String voucherCode;
 
     @Min(value = 1, message = "Voucher value should be at least one")
     private double value;

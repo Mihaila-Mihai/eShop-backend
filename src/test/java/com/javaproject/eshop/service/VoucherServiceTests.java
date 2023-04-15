@@ -39,7 +39,7 @@ public class VoucherServiceTests {
 
         Voucher result = voucherService.saveVoucher(voucherDto);
 
-        assertEquals("SUMMER-20", result.getName());
+        assertEquals("SUMMER-20", result.getVoucherCode());
         assertEquals(20, result.getValue());
         assertTrue(result.isActive());
     }

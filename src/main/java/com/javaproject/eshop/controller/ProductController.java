@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -47,6 +49,8 @@ public class ProductController {
             @RequestParam(defaultValue = "1") @Min(1) int size,
             @RequestParam(defaultValue = "") List<String> sortList,
             @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(auth.getPrincipal().toString());
         Page<Product> products = productService.getPaginatedProducts(page, size, sortList, sortOrder.toString());
         return ResponseEntity.ok(productPagedResourcesAssembler.toModel(products, productModelAssembler));
     }

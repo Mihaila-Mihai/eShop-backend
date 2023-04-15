@@ -1,8 +1,8 @@
 package com.javaproject.eshop.controller;
 
+import com.javaproject.eshop.dto.AddVoucherDto;
 import com.javaproject.eshop.entity.Cart;
 import com.javaproject.eshop.helpers.AddToCartPayload;
-import com.javaproject.eshop.helpers.CartAction;
 import com.javaproject.eshop.service.CartService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +31,9 @@ public class CartController {
         return ResponseEntity.ok("Your cart was deleted");
     }
 
-    @PostMapping("/{customerId}/cart/voucher/{voucherId}")
-    public ResponseEntity<String> addVoucher(@PathVariable(value = "customerId") int customerId, @PathVariable(value = "voucherId") int voucherId) {
-        cartService.addVoucher(voucherId, customerId);
+    @PostMapping("/cart/voucher")
+    public ResponseEntity<String> applyVoucher(@RequestBody AddVoucherDto addVoucherDto) {
+        cartService.applyVoucher(addVoucherDto);
         return ResponseEntity.ok("Voucher successfully applied");
     }
 }

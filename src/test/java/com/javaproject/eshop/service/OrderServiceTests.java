@@ -125,7 +125,7 @@ public class OrderServiceTests {
                 .customer(customer)
                 .build();
 
-        doReturn(List.of(order)).when(orderRepository).findAllByCustomer_CustomerId(customerId);
+        doReturn(List.of(order)).when(orderRepository).findAllByCustomer(customerId);
 
         List<Order> result = orderService.getOrders(customerId);
 

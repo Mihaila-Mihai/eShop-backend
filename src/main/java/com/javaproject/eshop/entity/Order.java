@@ -20,7 +20,9 @@ public class Order {
 
     private Date createdOn;
 
-    @OneToMany(mappedBy = "order")
+    private double totalPrice;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
     @JsonIgnore
@@ -29,8 +31,9 @@ public class Order {
     private Customer customer;
 
     @Builder
-    public Order(Date createdOn, Customer customer) {
+    public Order(Date createdOn, Customer customer, double totalPrice) {
         this.createdOn = createdOn;
         this.customer = customer;
+        this.totalPrice = totalPrice;
     }
 }

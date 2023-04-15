@@ -189,7 +189,7 @@ public class CartServiceTests {
         doReturn(this.customer).when(customerService).getCustomer(customerId);
         doReturn(this.voucher).when(voucherService).getVoucher(voucherId);
 
-        assertDoesNotThrow(() -> cartService.addVoucher(voucherId, customerId));
+        assertDoesNotThrow(() -> cartService.applyVoucher(voucherId, customerId));
         Cart result = cartService.getCart(customerId);
         assertEquals(0, cart.getTotalPrice());
     }
@@ -207,7 +207,7 @@ public class CartServiceTests {
         doReturn(this.voucher).when(voucherService).getVoucher(voucherId);
 
         InvalidVoucherException result = assertThrows(InvalidVoucherException.class,
-                () -> cartService.addVoucher(voucherId, customerId));
+                () -> cartService.applyVoucher(voucherId, customerId));
         assertEquals(expected, result.getMessage());
     }
 }

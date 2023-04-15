@@ -4,7 +4,7 @@ import com.javaproject.eshop.entity.Cart;
 import com.javaproject.eshop.entity.Customer;
 import com.javaproject.eshop.entity.Order;
 import com.javaproject.eshop.entity.OrderItem;
-import com.javaproject.eshop.exceptions.EmptyCartException;
+import com.javaproject.eshop.helpers.OrdersResponse;
 import com.javaproject.eshop.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,25 +30,25 @@ public class OrderService {
         Order order = Order.builder()
                 .createdOn(Date.valueOf(LocalDate.now()))
                 .customer(customer)
+                .totalPrice(cart.getTotalPrice())
                 .build();
 
-        order = orderRepository.save(order);
-
-        Order finalOrder = order;
         List<OrderItem> orderItems = cart.getProducts().stream().map(
                 product -> OrderItem.builder()
                         .price(product.getPrice())
                         .displayName(product.getDisplayName())
-                        .order(finalOrder)
+                        .order(order)
                         .build()
         ).toList();
 
 
         orderItemService.saveOrderItems(orderItems);
+
+        orderRepository.save(order);
         cartService.deleteCart(customerId);
     }
 
     public List<Order> getOrders(int customerId) {
-        return orderRepository.findAllByCustomer_CustomerId(customerId);
+        return orderRepository.findAllByCustomer(customerId);
     }
 }
