@@ -29,7 +29,9 @@ public class EShopApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/**")
-                        .allowedOrigins("http://localhost:4200");
+                        .allowedOrigins("http://localhost:4200")
+                        .allowCredentials(true)
+                        .exposedHeaders("Set-Cookie");
 
             }
         };

@@ -49,8 +49,6 @@ public class ProductController {
             @RequestParam(defaultValue = "1") @Min(1) int size,
             @RequestParam(defaultValue = "") List<String> sortList,
             @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth.getPrincipal().toString());
         Page<Product> products = productService.getPaginatedProducts(page, size, sortList, sortOrder.toString());
         return ResponseEntity.ok(productPagedResourcesAssembler.toModel(products, productModelAssembler));
     }
