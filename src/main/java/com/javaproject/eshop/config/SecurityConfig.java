@@ -41,9 +41,7 @@ public class SecurityConfig {
         http
                 .authenticationManager(authenticationManager(http))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/eShop/login").permitAll()
-                        .requestMatchers("/eShop/register").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .csrf().disable();
 

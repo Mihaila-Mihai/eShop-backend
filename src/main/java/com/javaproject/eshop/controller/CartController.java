@@ -3,6 +3,7 @@ package com.javaproject.eshop.controller;
 import com.javaproject.eshop.dto.AddVoucherDto;
 import com.javaproject.eshop.entity.Cart;
 import com.javaproject.eshop.helpers.AddToCartPayload;
+import com.javaproject.eshop.helpers.OkResponse;
 import com.javaproject.eshop.service.CartService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +33,8 @@ public class CartController {
     }
 
     @PostMapping("/cart/voucher")
-    public ResponseEntity<String> applyVoucher(@RequestBody AddVoucherDto addVoucherDto) {
+    public ResponseEntity<OkResponse> applyVoucher(@RequestBody AddVoucherDto addVoucherDto) {
         cartService.applyVoucher(addVoucherDto);
-        return ResponseEntity.ok("Voucher successfully applied");
+        return ResponseEntity.ok(new OkResponse("Voucher successfully applied"));
     }
 }

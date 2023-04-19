@@ -45,6 +45,10 @@ public class CustomerService implements UserDetailsService {
         return customerRepository.findById(customerId).orElseThrow(() -> new UnknownCustomerException("No customer corresponds to this data"));
     }
 
+    public Customer getCustomerByEmail(String email) {
+        return customerRepository.findCustomerByEmail(email).orElseThrow(() -> new UnknownCustomerException("No customer"));
+    }
+
     public Customer updateCustomer(CustomerUpdateDto customerUpdateDto, int customerId) {
         Optional<Customer> customer = customerRepository.findCustomerByEmailAndCustomerIdNot(customerUpdateDto.getEmail(), customerId);
 
