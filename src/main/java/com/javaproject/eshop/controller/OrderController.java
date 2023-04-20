@@ -18,8 +18,8 @@ public class OrderController {
 
     @PostMapping("/{customerId}/checkout")
     public ResponseEntity<OkResponse> checkoutCart(@PathVariable int customerId) {
-        orderService.checkout(customerId);
-        return ResponseEntity.ok(new OkResponse("Order successfully placed"));
+        Order order = orderService.checkout(customerId);
+        return ResponseEntity.ok(new OkResponse(String.valueOf(order.getOrderId())));
     }
 
     @GetMapping("/{customerId}/order-history")

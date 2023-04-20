@@ -23,7 +23,7 @@ public class OrderService {
     private final OrderItemService orderItemService;
 
     @Transactional
-    public void checkout(int customerId) {
+    public Order checkout(int customerId) {
         Customer customer = customerService.getCustomer(customerId);
         Cart cart = cartService.getCart(customerId);
 
@@ -44,8 +44,9 @@ public class OrderService {
 
         orderItemService.saveOrderItems(orderItems);
 
-        orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
         cartService.deleteCart(customerId);
+        return savedOrder;
     }
 
     public List<Order> getOrders(int customerId) {
