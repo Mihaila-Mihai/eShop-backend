@@ -6,12 +6,31 @@ spring:
 #    hibernate:
 #      ddl-auto: create
 #    show-sql: true
-  datasource:
-    url: jdbc:postgresql://localhost:5432/eShop
-    username: postgres
-    password: postgres
+  profiles:
+    active: dev
 
 logging:
   level:
     web: info
     sql: error
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/eShop
+    username: postgres
+    password: postgres
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: postgres
+    password: postgres
