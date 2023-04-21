@@ -2,11 +2,15 @@ server:
   port: 8050
 
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/eShop
     username: postgres
     password: postgres
+
+#logging:
+#  level:
+#    org.springframework.web: info

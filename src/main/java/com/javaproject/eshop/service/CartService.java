@@ -30,7 +30,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public Cart getCart(int customerId) {
+    public Cart getCart(int customerId) throws EmptyCartException {
         Cart cart = customerService.getCustomer(customerId).getCart();
         if (cart == null) {
             throw new EmptyCartException("Your cart is empty");
