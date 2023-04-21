@@ -13,10 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.mockito.Mockito.doReturn;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,8 +34,8 @@ public class ProductServiceTests {
 
     @BeforeEach
     void setup() {
-        productDetailsDto = new ProductDetailsDto("blue", "128GB");
-        productDto = new ProductDto("Samsung", 20, 20, List.of(productDetailsDto));
+        productDetailsDto = ProductDetailsDto.builder().color("blue").storageCapacity("128GB").build();
+        productDto = new ProductDto("Samsung", 20, 20, productDetailsDto);
         product = Product.builder()
                 .displayName(productDto.getDisplayName())
                 .price(productDto.getPrice())
@@ -53,7 +53,7 @@ public class ProductServiceTests {
                 .build();
 
         productDetails.setProduct(product);
-        product.setDetails(List.of(productDetails));
+        product.setDetails(productDetails);
 
         doReturn(product).when(productRepository).save(product);
 

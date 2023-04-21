@@ -40,8 +40,8 @@ public class OrderServiceTests {
     @Test
     @DisplayName("Checkout test")
     void checkout() {
-        ProductDetailsDto productDetailsDto = new ProductDetailsDto("blue", "128GB");
-        ProductDto productDto = new ProductDto("Samsung", 20, 20, List.of(productDetailsDto));
+        ProductDetailsDto productDetailsDto = ProductDetailsDto.builder().color("blue").storageCapacity("128GB").build();
+        ProductDto productDto = new ProductDto("Samsung", 20, 20, productDetailsDto);
         int customerId = 1;
         Customer customer = Customer.builder()
                 .email("m.m@m.ro")
@@ -51,7 +51,7 @@ public class OrderServiceTests {
         Voucher voucher = Voucher.builder()
                 .active(true)
                 .value(20)
-                .name("SUMMER-20")
+                .voucherCode("SUMMER-20")
                 .build();
         Product product = Product.builder()
                 .displayName(productDto.getDisplayName())
@@ -93,8 +93,8 @@ public class OrderServiceTests {
     @Test
     @DisplayName("Get orders test")
     void getOrders() {
-        ProductDetailsDto productDetailsDto = new ProductDetailsDto("blue", "128GB");
-        ProductDto productDto = new ProductDto("Samsung", 20, 20, List.of(productDetailsDto));
+        ProductDetailsDto productDetailsDto = ProductDetailsDto.builder().color("blue").storageCapacity("128GB").build();
+        ProductDto productDto = new ProductDto("Samsung", 20, 20, productDetailsDto);
         int customerId = 1;
         Customer customer = Customer.builder()
                 .email("m.m@m.ro")
@@ -104,7 +104,7 @@ public class OrderServiceTests {
         Voucher voucher = Voucher.builder()
                 .active(true)
                 .value(20)
-                .name("SUMMER-20")
+                .voucherCode("SUMMER-20")
                 .build();
         Product product = Product.builder()
                 .displayName(productDto.getDisplayName())

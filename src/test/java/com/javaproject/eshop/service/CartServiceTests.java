@@ -1,4 +1,6 @@
 package com.javaproject.eshop.service;
+
+import com.javaproject.eshop.dto.AddVoucherDto;
 import com.javaproject.eshop.entity.Cart;
 import com.javaproject.eshop.entity.Customer;
 import com.javaproject.eshop.entity.Product;
@@ -45,7 +47,7 @@ public class CartServiceTests {
     void setup() {
         this.voucher = Voucher.builder()
                 .value(20)
-                .name("SUMMER-20")
+                .voucherCode("SUMMER-20")
                 .active(true)
                 .build();
         this.products = List.of(
@@ -183,13 +185,15 @@ public class CartServiceTests {
     @DisplayName("Add voucher test")
     void addVoucher() {
         int voucherId = 1;
+        String voucherCode = "1";
         int customerId = 1;
         customer.setCart(cart);
+        AddVoucherDto addVoucherDto = new AddVoucherDto(customerId,voucherCode);
 
         doReturn(this.customer).when(customerService).getCustomer(customerId);
-        doReturn(this.voucher).when(voucherService).getVoucher(voucherId);
+        doReturn(this.voucher).when(voucherService).getVoucher(voucherCode);
 
-        assertDoesNotThrow(() -> cartService.applyVoucher(voucherId, customerId));
+        assertDoesNotThrow(() -> cartService.applyVoucher(addVoucherDto));
         Cart result = cartService.getCart(customerId);
         assertEquals(0, cart.getTotalPrice());
     }
@@ -198,16 +202,18 @@ public class CartServiceTests {
     @DisplayName("Add voucher throws test")
     void addVoucherThrows() {
         int voucherId = 1;
+        String voucherCode = "1";
         int customerId = 1;
         customer.setCart(cart);
         this.voucher.setActive(false);
         String expected = "Voucher is not valid";
+        AddVoucherDto addVoucherDto = new AddVoucherDto(customerId,voucherCode);
 
         doReturn(this.customer).when(customerService).getCustomer(customerId);
-        doReturn(this.voucher).when(voucherService).getVoucher(voucherId);
+        doReturn(this.voucher).when(voucherService).getVoucher(voucherCode);
 
         InvalidVoucherException result = assertThrows(InvalidVoucherException.class,
-                () -> cartService.applyVoucher(voucherId, customerId));
+                () -> cartService.applyVoucher(addVoucherDto));
         assertEquals(expected, result.getMessage());
     }
 }
