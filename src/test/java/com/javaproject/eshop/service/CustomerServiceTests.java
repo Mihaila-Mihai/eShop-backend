@@ -6,6 +6,7 @@ import com.javaproject.eshop.entity.Customer;
 import com.javaproject.eshop.exceptions.EmailAlreadyExistsException;
 import com.javaproject.eshop.exceptions.UnknownCustomerException;
 import com.javaproject.eshop.repository.CustomerRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,18 +31,26 @@ public class CustomerServiceTests {
     @Mock
     private PasswordEncoder pass;
 
-    @Test
-    @DisplayName("Save customer test")
-    //TODO: Fix test
-    void saveCustomer() {
-        CustomerDto customerDto = CustomerDto.builder().email("m.m@m.ro").firstName("Mihai").lastName("Mihaila").build();
+    private CustomerDto customerDto;
+    private Customer customer;
 
-        Customer customer = Customer.builder()
+    @BeforeEach
+    void setup() {
+        customerDto = CustomerDto.builder().email("m.m@m.ro").firstName("Mihai").lastName("Mihaila").build();
+        customer = Customer.builder()
                 .email("m.m@m.ro")
                 .firstName("Mihai")
                 .lastName("Mihaila")
                 .build();
+    }
 
+    @Test
+    @DisplayName("Save customer test")
+    void saveCustomer() {
+        customer.setEnabled(true);
+        customer.setPassword(pass.encode(customerDto.getPassword()));
+
+        when(customerRepository.findCustomerByEmail(customerDto.getEmail())).thenReturn(Optional.empty());
         when(customerRepository.save(customer)).thenReturn(customer);
 
         Customer result = customerService.saveCustomer(customerDto);
@@ -55,13 +64,6 @@ public class CustomerServiceTests {
     @DisplayName("Save customer throw test")
     void saveCustomerThrows() {
         String expected = "This emails already exists";
-        CustomerDto customerDto = CustomerDto.builder().email("m.m@m.ro").firstName("Mihai").lastName("Mihaila").build();
-
-        Customer customer = Customer.builder()
-                .email("m.m@m.ro")
-                .firstName("Mihai")
-                .lastName("Mihaila")
-                .build();
 
         when(customerRepository.findCustomerByEmail(customerDto.getEmail())).thenReturn(Optional.ofNullable(customer));
 
@@ -75,10 +77,7 @@ public class CustomerServiceTests {
     @DisplayName("Get customer success test")
     void getCustomerSuccess() {
         int customerId = 1;
-        Customer customer = Customer.builder()
-                .firstName("Mihai")
-                .lastName("Mihaila")
-                .build();
+
         customer.setCustomerId(1);
         when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
