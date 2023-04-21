@@ -36,6 +36,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-security"
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.aspectj:aspectjweaver:1.8.7'
+    implementation 'org.aspectj:aspectjrt:1.8.7'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
     testImplementation 'org.mockito:mockito-core:4.11.0'
