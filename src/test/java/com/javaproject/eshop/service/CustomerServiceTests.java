@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -26,10 +27,14 @@ public class CustomerServiceTests {
     @Mock
     private CustomerRepository customerRepository;
 
+    @Mock
+    private PasswordEncoder pass;
+
     @Test
     @DisplayName("Save customer test")
+    //TODO: Fix test
     void saveCustomer() {
-        CustomerDto customerDto = new CustomerDto("m.m@m.ro", "Mihai", "Mihaila");
+        CustomerDto customerDto = CustomerDto.builder().email("m.m@m.ro").firstName("Mihai").lastName("Mihaila").build();
 
         Customer customer = Customer.builder()
                 .email("m.m@m.ro")
@@ -50,7 +55,7 @@ public class CustomerServiceTests {
     @DisplayName("Save customer throw test")
     void saveCustomerThrows() {
         String expected = "This emails already exists";
-        CustomerDto customerDto = new CustomerDto("m.m@m.ro", "Mihai", "Mihaila");
+        CustomerDto customerDto = CustomerDto.builder().email("m.m@m.ro").firstName("Mihai").lastName("Mihaila").build();
 
         Customer customer = Customer.builder()
                 .email("m.m@m.ro")

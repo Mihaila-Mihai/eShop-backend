@@ -3,6 +3,7 @@ package com.javaproject.eshop.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,13 @@ public class ProductDetailsDto {
     private String brand;
     private String otherColors;
     private double rating;
+
+    @Builder
+    public ProductDetailsDto(String color, String storageCapacity, String brand) {
+        this.color = color;
+        this.storageCapacity = storageCapacity;
+        this.brand = brand;
+        this.otherColors = otherColors;
+        this.rating = rating;
+    }
 }

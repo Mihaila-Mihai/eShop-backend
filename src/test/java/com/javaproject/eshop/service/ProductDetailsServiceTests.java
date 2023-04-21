@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 
@@ -50,7 +51,7 @@ public class ProductDetailsServiceTests {
     @Test
     @DisplayName("Save product variation test")
     void saveProductVariationSuccess() {
-        ProductDetailsDto productDetailsDto = new ProductDetailsDto("blue", "128GB");
+        ProductDetailsDto productDetailsDto = ProductDetailsDto.builder().color("blue").storageCapacity("128GB").build();
 
         ProductDetails productDetails = ProductDetails.builder()
                 .product(product)
@@ -71,7 +72,7 @@ public class ProductDetailsServiceTests {
     @DisplayName("Get product variations test")
     void getProducts() {
         int productId = 1;
-        ProductDetailsDto productDetailsDto = new ProductDetailsDto("blue", "128GB");
+        ProductDetailsDto productDetailsDto = ProductDetailsDto.builder().color("blue").storageCapacity("128GB").build();
 
         ProductDetails productDetails = ProductDetails.builder()
                 .product(product)
