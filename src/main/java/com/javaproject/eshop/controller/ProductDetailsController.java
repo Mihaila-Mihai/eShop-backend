@@ -17,14 +17,14 @@ import java.util.List;
 public class ProductDetailsController {
     private final ProductDetailsService productDetailsService;
 
-    @GetMapping("/{productId}/variations")
+    @GetMapping("/{productId}/details")
     private ResponseEntity<List<ProductDetails>> getVariations(@PathVariable int productId) {
         return ResponseEntity.ok(productDetailsService.getVariations(productId));
     }
 
-    @PostMapping("/{productId}/variation")
+    @PostMapping("/{productId}/details")
     private ResponseEntity<ProductDetails> addVariation(@PathVariable int productId, @RequestBody @Valid ProductDetailsDto productDetailsDto) {
         ProductDetails productDetails = productDetailsService.saveProductVariation(productDetailsDto, productId);
-        return ResponseEntity.created(URI.create("/" + productId + "/variation/" + productDetails.getProductVariationId())).body(productDetails);
+        return ResponseEntity.created(URI.create("/" + productId + "/details/" + productDetails.getProductVariationId())).body(productDetails);
     }
 }

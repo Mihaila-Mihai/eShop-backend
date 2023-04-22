@@ -36,4 +36,12 @@ public class Order {
         this.customer = customer;
         this.totalPrice = totalPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "createdOn=" + createdOn +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }

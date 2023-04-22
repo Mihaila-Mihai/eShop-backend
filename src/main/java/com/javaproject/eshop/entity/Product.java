@@ -25,6 +25,7 @@ public class Product {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "products")
+    @ToString.Exclude
     private List<Cart> carts = new ArrayList<>();
 
     @Builder

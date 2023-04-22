@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
@@ -86,6 +88,19 @@ public class CartService {
         cart.addVoucher(voucher);
 
         saveCart(cart, customer.getCustomerId());
+    }
+
+    public void removeVoucher(int cartId) {
+        Optional<Cart> cart = cartRepository.findById(cartId);
+        if (cart.isEmpty()) {
+            throw new EmptyCartException("Cart is empty");
+        }
+
+        Cart cartToModify = cart.get();
+        cartToModify.setVoucher(null);
+        cartToModify.calculateTotalPrice();
+
+        cartRepository.save(cartToModify);
     }
 
 

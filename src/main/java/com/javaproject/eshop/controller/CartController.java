@@ -27,14 +27,20 @@ public class CartController {
     }
 
     @DeleteMapping("/{customerId}/cart")
-    public ResponseEntity<String> deleteCart(@PathVariable int customerId) {
+    public ResponseEntity<OkResponse> deleteCart(@PathVariable int customerId) {
         cartService.deleteCart(customerId);
-        return ResponseEntity.ok("Your cart was deleted");
+        return ResponseEntity.ok(new OkResponse("Your cart was deleted"));
     }
 
     @PostMapping("/cart/voucher")
     public ResponseEntity<OkResponse> applyVoucher(@RequestBody AddVoucherDto addVoucherDto) {
         cartService.applyVoucher(addVoucherDto);
         return ResponseEntity.ok(new OkResponse("Voucher successfully applied"));
+    }
+
+    @DeleteMapping("/{cartId}/voucher")
+    public ResponseEntity<OkResponse> removeVoucher(@PathVariable int cartId) {
+        cartService.removeVoucher(cartId);
+        return ResponseEntity.ok(new OkResponse("Voucher successfully removed"));
     }
 }

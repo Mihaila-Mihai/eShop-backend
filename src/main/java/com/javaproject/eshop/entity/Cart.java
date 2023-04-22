@@ -66,12 +66,19 @@ public class Cart {
             totalPriceValue -= voucher.getValue();
         }
 
-        setTotalPrice(totalPriceValue >= 0 ? totalPriceValue : 0);
+        this.setTotalPrice(totalPriceValue >= 0 ? totalPriceValue : 0);
     }
 
     public void addVoucher(Voucher voucher) {
         this.setVoucher(voucher);
 
         this.calculateTotalPrice();
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "totalPrice=" + totalPrice +
+                '}';
     }
 }

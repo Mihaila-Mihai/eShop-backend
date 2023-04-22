@@ -31,6 +31,7 @@ public class EShopApplication {
                         .addMapping("/**")
                         .allowedOrigins("http://localhost:4200")
                         .allowCredentials(true)
+                        .allowedMethods("GET","POST","PUT","DELETE")
                         .exposedHeaders("Set-Cookie");
 
             }
