@@ -17,7 +17,7 @@ public class CartController {
 
     @GetMapping("/{customerId}/cart")
     public ResponseEntity<Cart> getCart(@PathVariable int customerId) {
-        return ResponseEntity.ok(cartService.getCart(customerId));
+        return ResponseEntity.ok().body(cartService.getCart(customerId));
     }
 
     @PostMapping("/cart")

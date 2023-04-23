@@ -17,12 +17,18 @@ import java.util.Optional;
 
 
 @Service
-@AllArgsConstructor
 public class CartService {
     private final CartRepository cartRepository;
     private final CustomerService customerService;
     private final ProductService productService;
     private final VoucherService voucherService;
+
+    public CartService(CartRepository cartRepository, CustomerService customerService, ProductService productService, VoucherService voucherService) {
+        this.cartRepository = cartRepository;
+        this.customerService = customerService;
+        this.productService = productService;
+        this.voucherService = voucherService;
+    }
 
     public void saveCart(Cart cart, int customerId) {
         Customer customer = customerService.getCustomer(customerId);
