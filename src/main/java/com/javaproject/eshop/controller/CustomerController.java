@@ -39,8 +39,6 @@ public class CustomerController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest request, HttpServletRequest req, HttpServletResponse response) {
-        System.out.println(request.getEmail());
-        System.out.println(request.getPassword());
         UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.unauthenticated(
                 request.getEmail(), request.getPassword()
         );
